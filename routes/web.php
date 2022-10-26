@@ -7,4 +7,5 @@ Route::get('/', [WelcomeController::class, 'index']);
 Route::resource('/visitors', VisitorController::class);
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
+Route::get('/', [LogoutController::class, 'logout'])->name('logout');
 
