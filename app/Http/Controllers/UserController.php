@@ -3,11 +3,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
 
 class UserController extends Controller
 {
     
-    public function create(Request $request)
+    public function create()
     {
         return view('users/create');
     }
@@ -15,15 +16,23 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
-        
+
         $data = $request->all();
-        $check = $this->create($data);
+        $check = $this->createUserData($data);
         
-        $request->session()->regenerate();
-        return redirect()->intended('/');
+        return redirect('/')->withSuccess('Great! You have Successfully loggedin');
+    }
+
+    public function createUserData(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ]);
     }
 }

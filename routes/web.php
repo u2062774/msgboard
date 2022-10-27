@@ -10,5 +10,5 @@ Route::resource('/visitors', VisitorController::class);
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
-Route::get('/create', [UserController::class, 'create'])->name('create');
-Route::post('/store', [UserController::class, 'store'])->name('store');
+Route::get('/signup', [UserController::class, 'create'])->name('create');
+Route::post('/signup', [UserController::class, 'store'])->name('store');

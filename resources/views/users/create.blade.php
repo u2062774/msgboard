@@ -30,7 +30,7 @@
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-blue">Login</button>
+            <button type="submit" class="btn btn-blue">Signup</button>
         </form>
     @else
         <p>You are already registered!</p>
