@@ -9,23 +9,21 @@ class UserController extends Controller
     
     public function create(Request $request)
     {
-        return view('auth/create');
+        return view('users/create');
     }
 
     public function store(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
+            'name' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
         
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/');
-        }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        $data = $request->all();
+        $check = $this->create($data);
+        
+        $request->session()->regenerate();
+        return redirect()->intended('/');
     }
 }
