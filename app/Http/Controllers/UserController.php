@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use Hash;
 
 class UserController extends Controller
 {
@@ -15,24 +16,28 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
+           
         $data = $request->all();
-        $check = $this->createUserData($data);
-        
-        return redirect('/')->withSuccess('Great! You have Successfully loggedin');
+        $user = $this->createUserData($data);
+
+        Auth()->login($user);
+         
+        $request->session()->regenerate();
+        return redirect()->intended('/');
     }
 
     public function createUserData(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-        ]);
+      return User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password'])
+      ]);
     }
 }
